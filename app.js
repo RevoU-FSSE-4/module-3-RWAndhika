@@ -23,7 +23,10 @@ const addTask = () => {
         //  ref=> https://stackoverflow.com/questions/595808/is-it-possible-to-append-to-innerhtml-without-destroying-descendants-event-list
         taskList.insertAdjacentHTML("beforeend", `<li id='list-${++taskId}'>${newTask.value}</li>`);
         newTask.value = '';
+        showWarning(isInput);
         addClickListener(taskId);
+    } else {
+        showWarning(isInput);
     }
 };
 
@@ -50,6 +53,16 @@ const showTaskList = (taskData) => {
     }
 };
 
+const showWarning = (valid) => {
+    if (!valid) {
+        warningText.innerHTML = 'Input a Task!';
+    } else {
+        warningText.innerHTML = '';
+    }
+}
+
+const warningText = document.createElement("p");
+document.querySelector(".container").appendChild(warningText);
 document.getElementById("addTaskBtn").addEventListener("click", addTask);
 
 generateTask();
