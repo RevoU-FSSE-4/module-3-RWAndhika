@@ -2,22 +2,26 @@
 // Add any additional code necessary to fulfill the requirements of the assignment
 
 // a universal variable taskId to keep track of the task-id so there are no task that has the same id after adding/removing
-let taskId: number = 0;
-
-interface Task {
-    data: string[]
+interface TaskList {
+    data: string[];
+    count: number;
 }
+
+type Id = number;
+
+let taskId: Id = 0;
 
 // generate random task from api fetch from the start
 const generateTask = async (): Promise<void> => {
     const response: Response = await fetch("https://module3-api-is2m.onrender.com/random-todos");
     const data: string[] = await response.json();
-    let taskData: Task = {
-        data: data
+    let myTask: TaskList = {
+        data: data,
+        count: data.length
     }
 
-    if (taskData.data.length > 0) {
-        showTaskList(taskData.data);
+    if (myTask.count > 0) {
+        showTaskList(myTask);
     }
 };
 
@@ -41,7 +45,7 @@ const addTask = (): void => {
 
 // function to add an eventListener on click to the task
 const addClickListener = (index: number): void => {
-    let onClickTaskGenerator = onClickTask(index);
+    let onClickTaskGenerator: Generator<void> = onClickTask(index);
     const clickedTask = document.getElementById(`task-${index}`) as HTMLElement;
     clickedTask.addEventListener("click", () => onClickTaskGenerator.next());
 };
@@ -55,11 +59,11 @@ function* onClickTask(index: number): Generator<void> {
 }
 
 // function to show the first generated task from api fetch
-const showTaskList = (taskData: string[]): void => {
+const showTaskList = (myTask: TaskList): void => {
     const taskList = document.getElementById("taskList") as HTMLElement;
 
-    for (let i: number = 0; i < taskData.length; i++) {
-        const task: string = taskData[i];
+    for (let i: number = 0; i < myTask.count; i++) {
+        const task: string = myTask.data[i];
         taskId = i;
         taskList.insertAdjacentHTML("beforeend", `<li id='task-${taskId}'>${task}</li>`);
         addClickListener(i);

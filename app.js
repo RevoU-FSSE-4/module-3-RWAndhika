@@ -37,11 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-// a universal variable taskId to keep track of the task-id so there are no task that has the same id after adding/removing
 var taskId = 0;
 // generate random task from api fetch from the start
 var generateTask = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, taskData;
+    var response, data, myTask;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, fetch("https://module3-api-is2m.onrender.com/random-todos")];
@@ -50,11 +49,12 @@ var generateTask = function () { return __awaiter(_this, void 0, void 0, functio
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                taskData = {
-                    data: data
+                myTask = {
+                    data: data,
+                    count: data.length
                 };
-                if (taskData.data.length > 0) {
-                    showTaskList(taskData.data);
+                if (myTask.count > 0) {
+                    showTaskList(myTask);
                 }
                 return [2 /*return*/];
         }
@@ -99,10 +99,10 @@ function onClickTask(index) {
     });
 }
 // function to show the first generated task from api fetch
-var showTaskList = function (taskData) {
+var showTaskList = function (myTask) {
     var taskList = document.getElementById("taskList");
-    for (var i = 0; i < taskData.length; i++) {
-        var task = taskData[i];
+    for (var i = 0; i < myTask.count; i++) {
+        var task = myTask.data[i];
         taskId = i;
         taskList.insertAdjacentHTML("beforeend", "<li id='task-".concat(taskId, "'>").concat(task, "</li>"));
         addClickListener(i);
