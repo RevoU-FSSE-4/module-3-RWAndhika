@@ -58,7 +58,7 @@ function* onClickTask(index: number): Generator<void> {
 const showTaskList = (taskData: string[]): void => {
     const taskList = document.getElementById("taskList") as HTMLElement;
 
-    for (let i = 0; i < taskData.length; i++) {
+    for (let i: number = 0; i < taskData.length; i++) {
         const task: string = taskData[i];
         taskId = i;
         taskList.insertAdjacentHTML("beforeend", `<li id='task-${taskId}'>${task}</li>`);
