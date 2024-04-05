@@ -10,8 +10,8 @@ interface Task {
 
 // generate random task from api fetch from the start
 const generateTask = async (): Promise<void> => {
-    const response = await fetch("https://module3-api-is2m.onrender.com/random-todos");
-    const data = await response.json();
+    const response: Response = await fetch("https://module3-api-is2m.onrender.com/random-todos");
+    const data: string[] = await response.json();
     let taskData: Task = {
         data: data
     }
